@@ -403,6 +403,87 @@ section { padding: 100px 0; position: relative; z-index: 1; }
   max-width: 900px;
 }
 
+/* Vertical side labels */
+.hero-side-label {
+  position: absolute; z-index: 4;
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  opacity: 0;
+  animation: fadeIn 1s 1.4s ease forwards;
+}
+.hero-side-label.left {
+  left: 32px; bottom: 50%;
+  flex-direction: column;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: left center;
+}
+.hero-side-label.right {
+  right: 32px; bottom: 50%;
+  flex-direction: column;
+  transform: rotate(90deg) translateX(50%);
+  transform-origin: right center;
+}
+.hero-side-label::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: rgba(201,169,110,0.4);
+  flex-shrink: 0;
+}
+@media (max-width: 768px) { .hero-side-label { display: none; } }
+
+/* Corner decorative brackets */
+.hero-corner {
+  position: absolute; z-index: 4;
+  width: 36px; height: 36px;
+  opacity: 0;
+  animation: fadeIn 1s 1.2s ease forwards;
+  pointer-events: none;
+}
+.hero-corner-tl { top: 28px; left: 28px; border-top: 1px solid rgba(201,169,110,0.45); border-left: 1px solid rgba(201,169,110,0.45); }
+.hero-corner-tr { top: 28px; right: 28px; border-top: 1px solid rgba(201,169,110,0.45); border-right: 1px solid rgba(201,169,110,0.45); }
+.hero-corner-bl { bottom: 28px; left: 28px; border-bottom: 1px solid rgba(201,169,110,0.45); border-left: 1px solid rgba(201,169,110,0.45); }
+.hero-corner-br { bottom: 28px; right: 28px; border-bottom: 1px solid rgba(201,169,110,0.45); border-right: 1px solid rgba(201,169,110,0.45); }
+@media (max-width: 480px) { .hero-corner { width: 22px; height: 22px; top: 16px; bottom: 16px; left: 16px; right: 16px; } }
+
+/* Slide category tag (bottom left) */
+.hero-slide-tag {
+  position: absolute; z-index: 5;
+  bottom: 110px; left: 40px;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0;
+  animation: fadeIn 1s 1.6s ease forwards;
+  pointer-events: none;
+}
+.hero-slide-tag-line {
+  width: 32px; height: 1px; background: var(--gold);
+}
+.hero-slide-tag-text {
+  font-family: var(--font-body);
+  font-size: 0.6rem; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  transition: opacity 0.5s;
+}
+@media (max-width: 480px) { .hero-slide-tag { left: 20px; bottom: 100px; } }
+
+/* Slide count (top right) */
+.hero-slide-count {
+  position: absolute; z-index: 5;
+  top: 36px; right: 40px;
+  font-family: var(--serif);
+  font-size: 0.75rem; letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.35);
+  opacity: 0;
+  animation: fadeIn 1s 1.4s ease forwards;
+  pointer-events: none;
+}
+.hero-slide-count strong { color: var(--gold); font-weight: 300; }
+@media (max-width: 480px) { .hero-slide-count { right: 20px; } }
+
 .hero-eyebrow {
   display: flex; align-items: center; justify-content: center; gap: 16px;
   margin-bottom: 28px;
@@ -625,57 +706,155 @@ section { padding: 100px 0; position: relative; z-index: 1; }
 .masonry-overlay span { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--gold-light); }
 
 /* ══════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX — CINEMATIC ZOOM FROM ORIGIN
 ══════════════════════════════════════════ */
 .lightbox {
   position: fixed; inset: 0;
-  background: rgba(8,8,8,0.97);
   z-index: 10000;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.4s var(--ease-circ);
-  padding: 20px;
+  padding: 0;
+  pointer-events: none;
 }
-.lightbox.open { opacity: 1; pointer-events: all; }
+/* Backdrop */
+.lightbox-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4,4,4,0.97);
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+.lightbox.open .lightbox-backdrop {
+  opacity: 1;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+/* Grain overlay for cinematic feel */
+.lightbox-backdrop::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5; pointer-events: none;
+}
+/* Image wrapper — handles the zoom transform */
+.lightbox-wrap {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.lightbox.open { pointer-events: all; }
 .lightbox-img {
-  max-width: 90vw; max-height: 88vh;
+  max-width: min(92vw, 1400px);
+  max-height: 88vh;
   object-fit: contain;
-  border-radius: 3px;
-  transform: scale(0.95);
-  transition: transform 0.4s var(--ease-out);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  border-radius: 2px;
+  box-shadow: 0 60px 140px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,169,110,0.08);
+  /* Start: small at origin, set by JS */
+  transform-origin: center center;
+  transform: scale(0) translate(0,0);
+  opacity: 0;
+  transition:
+    transform 0.65s cubic-bezier(0.16,1,0.3,1),
+    opacity 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform, opacity;
+  display: block;
 }
-.lightbox.open .lightbox-img { transform: scale(1); }
+.lightbox.open .lightbox-img {
+  transform: scale(1) translate(0,0) !important;
+  opacity: 1;
+}
+.lightbox.closing .lightbox-img {
+  transition:
+    transform 0.5s cubic-bezier(0.4,0,0.8,0) !important,
+    opacity 0.4s ease-in !important;
+}
+/* Navigation */
 .lightbox-close {
-  position: absolute; top: 20px; right: 24px;
-  font-size: 2rem; color: var(--gold-light);
-  cursor: pointer; line-height: 1;
+  position: fixed; top: 24px; right: 28px;
+  z-index: 10;
   width: 48px; height: 48px;
   display: flex; align-items: center; justify-content: center;
-  border: 1px solid rgba(201,169,110,0.3);
+  border: 1px solid rgba(201,169,110,0.35);
   border-radius: 50%;
-  transition: all 0.3s;
-}
-.lightbox-close:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-.lightbox-nav {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  font-size: 1.5rem; color: var(--gold-light);
+  color: var(--gold-light);
   cursor: pointer;
-  width: 52px; height: 52px;
+  font-size: 1.1rem;
+  background: rgba(8,8,8,0.5);
+  transition: all 0.3s;
+  opacity: 0;
+  transform: scale(0.8) rotate(-90deg);
+}
+.lightbox.open .lightbox-close {
+  opacity: 1; transform: scale(1) rotate(0deg);
+  transition: all 0.4s 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.lightbox-close:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: scale(1.08) !important; }
+.lightbox-nav {
+  position: fixed;
+  top: 50%; transform: translateY(-50%);
+  z-index: 10;
+  width: 54px; height: 54px;
   display: flex; align-items: center; justify-content: center;
   border: 1px solid rgba(201,169,110,0.3);
   border-radius: 50%;
+  color: var(--gold-light);
+  cursor: pointer;
+  font-size: 1.3rem;
+  background: rgba(8,8,8,0.55);
   transition: all 0.3s;
-  background: rgba(8,8,8,0.6);
-  z-index: 2;
+  opacity: 0;
+}
+.lightbox.open .lightbox-nav {
+  opacity: 1;
+  transition: opacity 0.4s 0.35s, background 0.3s, color 0.3s, border-color 0.3s;
 }
 .lightbox-nav:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-.lightbox-prev { left: 16px; }
-.lightbox-next { right: 16px; }
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+/* Counter + caption bar */
+.lightbox-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  background: linear-gradient(transparent, rgba(4,4,4,0.9));
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s 0.3s, transform 0.4s 0.3s;
+}
+.lightbox.open .lightbox-bar { opacity: 1; transform: translateY(0); }
 .lightbox-counter {
-  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-  font-size: 0.7rem; letter-spacing: 0.15em; color: var(--ash);
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  color: var(--ash); text-transform: uppercase;
+}
+.lightbox-hint {
+  font-size: 0.62rem; letter-spacing: 0.15em;
+  color: rgba(154,154,154,0.5); text-transform: uppercase;
+}
+/* Thumbnail strip */
+.lightbox-thumbs {
+  display: flex; gap: 6px; align-items: center;
+  max-width: 400px; overflow: hidden;
+}
+.lb-thumb {
+  width: 40px; height: 40px; object-fit: cover;
+  opacity: 0.35; border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+}
+.lb-thumb.active { opacity: 1; border-color: var(--gold); transform: scale(1.08); }
+.lb-thumb:hover { opacity: 0.7; }
+/* Image change transition */
+.lightbox-img.lb-changing {
+  opacity: 0;
+  transform: scale(0.96) !important;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in !important;
+}
+.lightbox-img.lb-entering {
+  transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.16,1,0.3,1) !important;
 }
 
 /* ══════════════════════════════════════════
@@ -1612,11 +1791,18 @@ footer {
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de imágenes">
+  <div class="lightbox-backdrop" id="lbBackdrop"></div>
+  <div class="lightbox-wrap">
+    <img class="lightbox-img" id="lbImg" src="" alt="Foto galería">
+  </div>
   <button class="lightbox-close" id="lbClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
   <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-  <img class="lightbox-img" id="lbImg" src="" alt="Foto galería">
   <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
-  <span class="lightbox-counter" id="lbCounter"></span>
+  <div class="lightbox-bar">
+    <span class="lightbox-counter" id="lbCounter"></span>
+    <div class="lightbox-thumbs" id="lbThumbs"></div>
+    <span class="lightbox-hint">ESC para cerrar · ← → navegar</span>
+  </div>
 </div>
 
 <!-- SERVICE MODAL -->
@@ -1670,8 +1856,21 @@ footer {
   <div class="hero-bg" id="heroBg">
     <div class="hero-bar-top"></div>
     <div class="hero-bar-bottom"></div>
-    <!-- Slides injected by JS -->
   </div>
+  <!-- Corner brackets -->
+  <div class="hero-corner hero-corner-tl"></div>
+  <div class="hero-corner hero-corner-tr"></div>
+  <div class="hero-corner hero-corner-bl"></div>
+  <div class="hero-corner hero-corner-br"></div>
+  <!-- Side labels -->
+  <div class="hero-side-label left">Fotografía profesional</div>
+  <div class="hero-side-label right">Barrio Escalante · CR</div>
+  <!-- Slide metadata -->
+  <div class="hero-slide-tag">
+    <div class="hero-slide-tag-line"></div>
+    <span class="hero-slide-tag-text" id="heroSlideLabel">Familias</span>
+  </div>
+  <div class="hero-slide-count" id="heroSlideCount"><strong>01</strong> / 08</div>
   <div class="hero-content">
     <div class="hero-eyebrow"><span class="label">San José · Costa Rica</span></div>
     <h1>Claroscuro<em>Fotografía</em></h1>
@@ -1719,73 +1918,70 @@ footer {
     </div>
     <div class="masonry" id="galleryMasonry">
       <!-- MATERNIDAD -->
-      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/fVQkTJyS/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="maternidad"><img src="https://i.ibb.co/7xVCpZ6K/2026-03-11-10-17-00.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="maternidad"><img src="https://i.ibb.co/WpGRBLDh/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="maternidad"><img src="https://i.ibb.co/2Y5hf6Dr/2026-03-11-10-17-41.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/Mx6LC8nQ/2026-03-11-10-16-17.jpg" alt="Sesión embarazo" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="maternidad"><img src="https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="maternidad"><img src="https://i.ibb.co/TBf8zBbJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="maternidad"><img src="https://i.ibb.co/rfQqNfmJ/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad natural" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="maternidad"><img src="https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="maternidad"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="maternidad"><img src="https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad natural" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+
       <!-- BODAS -->
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/cScLQzz4/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/Dg9vygY3/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/fdN1mtjr/2026-03-11-10-21-19.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/zWwknry4/2026-03-11-10-21-28.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Wv5zbjw0/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/21zz0Kb3/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/KjXKjm8J/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/PZRhWD5t/2026-03-11-10-22-37.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/MytpkfpH/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/ZzQ94Vhn/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/mCkN7mvk/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/BHBVYwP9/2026-03-11-10-23-17.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/JfMkVb3/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/pjXxPkhj/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/5xC23Lp4/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/s99d9yqc/2026-03-11-10-24-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/DPqdMkRQ/2026-03-11-10-24-25.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/RGW112Gw/2026-03-11-10-24-59.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/WNBG8k6V/2026-03-11-10-25-02.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/V0Vhz4bW/2026-03-11-10-25-10.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/XrnPMVXN/2026-03-11-10-25-32.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/S41tCF6y/2026-03-11-10-26-04.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/k6c4QFkn/2026-03-11-10-25-50.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/ccr8Gn8R/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/j9s0gw0X/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/b5CzmcmK/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/gZbCwwmz/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/KchKYj46/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/Z6kGS6Yn/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/VYFD0Y6R/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/Tq47Sq1z/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/1GXvHKFR/2026-03-11-10-21-19.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/MyLX2sYC/2026-03-11-10-21-28.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/QvQH2tRk/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/HfccLgJT/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/XZbYZVGq/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/KjYqsK9m/2026-03-11-10-22-37.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Q7TnvknV/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/B2hkWtgX/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/7JPkFHgP/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/6RdzpR4G/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/WNfWRs3L/2026-03-11-10-23-17.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/v7KzprX/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/9HYNvdZH/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/mFdSK4ZT/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/4RRnRPpC/2026-03-11-10-24-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/MyXd1pC7/2026-03-11-10-24-25.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/NgT2j1fc/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/kVFppKVC/2026-03-11-10-24-59.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/TDPYj4kW/2026-03-11-10-25-02.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/9mnf15B9/2026-03-11-10-25-10.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/xtnbd3hP/2026-03-11-10-25-32.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/h18BDvh5/2026-03-11-10-25-50.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/4ZVS6rSC/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/CpDCh9CG/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/xqBJLxL7/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/7txFVVj2/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/mrTNmCZJ/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/6Rfr8R13/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/QvWn7v0L/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/VXZTmWf/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Q70jfs3V/2026-03-11-10-23-17.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/mVVb2RQj/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/S4vmByVJ/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/wNwP0bLG/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/kVjr9vVn/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/dwnnLw33/2026-03-11-10-25-02.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <!-- RETRATOS -->
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/hRHD39yS/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/vxQL2S3R/2026-03-11-10-09-04.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/S77qpr7X/2026-03-11-10-09-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/VcKmWYM9/2026-03-11-10-11-52.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/Csz06xpB/2026-03-11-10-12-42.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/PsYxQPB0/2026-03-11-10-26-17.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/3Y851BCm/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/Q7HyzXjk/2026-03-11-10-30-25-edit-217354778074218.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/bMS4Ykrn/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/7NdgTHfH/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/6Js8KhbT/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/kgzkhSDf/2026-03-11-10-12-42.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/fdm3y7TM/2026-03-11-10-13-26.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/b5GQkYsT/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/VYzSfLPw/Screenshot-20260311-102740-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/rKGNwgcx/Screenshot-20260311-102806-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/fcfQpyW/20250716-2025-07-15-11-52-11.jpg" alt="Retrato artístico" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/gMPtsxSh/2026-03-11-10-09-04.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/FqqGtVqb/2026-03-11-10-09-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/zTkJhVPx/2026-03-11-10-11-52.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/GfJ7T8gN/2026-03-11-10-26-17.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/gFXbyzRZ/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/R4khM1F1/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/jZ4zCKGQ/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/9HRx1jdn/2026-03-11-10-13-26.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/chskjR60/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/zWhD417X/Screenshot-20260311-102806-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/jpmHMQY/20250716-2025-07-15-11-52-11.jpg" alt="Retrato artístico" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <!-- COLEGIOS -->
-      <div class="masonry-item reveal" data-cat="colegios"><img src="https://i.ibb.co/sprjbXt6/2026-03-11-10-17-00.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="colegios"><img src="https://i.ibb.co/xqpG4T81/2026-03-11-10-17-04.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="colegios"><img src="https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg" alt="Promo" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="colegios"><img src="https://i.ibb.co/TBf8zBbJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal" data-cat="colegios"><img src="https://i.ibb.co/7drHqgzH/2026-03-11-10-16-56.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="colegios"><img src="https://i.ibb.co/TD8m9Ldy/Screenshot-20260311-101731-com-flickr-android-Lightbox2-Activity.jpg" alt="Promo" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="colegios"><img src="https://i.ibb.co/6ckg5q1p/2026-03-11-10-17-41.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
+      <div class="masonry-item reveal" data-cat="colegios"><img src="https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
+      <div class="masonry-item reveal reveal-delay-1" data-cat="colegios"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
+
       <!-- BEBÉS -->
       <div class="masonry-item reveal" data-cat="bebes"><img src="https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg" alt="Bebé" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
       <div class="masonry-item reveal reveal-delay-1" data-cat="bebes"><img src="https://i.ibb.co/mFNYcDb1/2026-03-11-10-43-30.jpg" alt="Bebé" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
@@ -1814,7 +2010,7 @@ footer {
       <span class="gold-line"></span>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal" data-svc="Maternidad" data-desc="Sesiones emotivas que celebran la llegada de una nueva vida. Usamos luz natural y telas suaves." data-imgs="https://i.ibb.co/fVQkTJyS/2026-03-11-10-16-17.jpg,https://i.ibb.co/7xVCpZ6K/2026-03-11-10-17-00.jpg,https://i.ibb.co/WpGRBLDh/2026-03-11-10-16-56.jpg,https://i.ibb.co/2Y5hf6Dr/2026-03-11-10-17-41.jpg,https://i.ibb.co/Mx6LC8nQ/2026-03-11-10-16-17.jpg,https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg,https://i.ibb.co/TBf8zBbJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/rfQqNfmJ/20250716-FB-IMG-1717627029680.jpg">
+      <div class="service-card reveal" data-svc="Maternidad" data-desc="Sesiones emotivas que celebran la llegada de una nueva vida. Usamos luz natural y telas suaves." data-imgs="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg,https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg,https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg,https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg">
         <span class="service-num">01</span>
         <div class="service-icon"><i class="fas fa-child" aria-hidden="true"></i></div>
         <h3>Maternidad</h3>
@@ -1835,21 +2031,21 @@ footer {
         <p>Conexiones auténticas. Sesiones dinámicas en estudio o exteriores que capturan la complicidad.</p>
         <button class="service-link" aria-label="Ver galería de Familias">Ver galería <i class="fas fa-arrow-right"></i></button>
       </div>
-      <div class="service-card reveal reveal-delay-3" data-svc="Retratos" data-desc="Tu esencia personal. Retratos artísticos, lifestyle o clásicos para cualquier ocasión." data-imgs="https://i.ibb.co/hRHD39yS/2026-03-11-10-09-20.jpg,https://i.ibb.co/vxQL2S3R/2026-03-11-10-09-04.jpg,https://i.ibb.co/S77qpr7X/2026-03-11-10-09-35.jpg,https://i.ibb.co/VcKmWYM9/2026-03-11-10-11-52.jpg,https://i.ibb.co/Csz06xpB/2026-03-11-10-12-42.jpg,https://i.ibb.co/PsYxQPB0/2026-03-11-10-26-17.jpg,https://i.ibb.co/3Y851BCm/2026-03-11-10-26-24.jpg,https://i.ibb.co/Q7HyzXjk/2026-03-11-10-30-25-edit-217354778074218.jpg,https://i.ibb.co/bMS4Ykrn/2026-03-11-10-30-28-edit-217320133204804.jpg,https://i.ibb.co/7NdgTHfH/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/6Js8KhbT/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/kgzkhSDf/2026-03-11-10-12-42.jpg,https://i.ibb.co/fdm3y7TM/2026-03-11-10-13-26.jpg,https://i.ibb.co/b5GQkYsT/2026-03-11-10-26-24.jpg,https://i.ibb.co/VYzSfLPw/Screenshot-20260311-102740-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/rKGNwgcx/Screenshot-20260311-102806-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/fcfQpyW/20250716-2025-07-15-11-52-11.jpg">
+      <div class="service-card reveal reveal-delay-3" data-svc="Retratos" data-desc="Tu esencia personal. Retratos artísticos, lifestyle o clásicos para cualquier ocasión." data-imgs="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg,https://i.ibb.co/gMPtsxSh/2026-03-11-10-09-04.jpg,https://i.ibb.co/FqqGtVqb/2026-03-11-10-09-35.jpg,https://i.ibb.co/zTkJhVPx/2026-03-11-10-11-52.jpg,https://i.ibb.co/GfJ7T8gN/2026-03-11-10-26-17.jpg,https://i.ibb.co/gFXbyzRZ/2026-03-11-10-26-24.jpg,https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg,https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg,https://i.ibb.co/R4khM1F1/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/jZ4zCKGQ/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/9HRx1jdn/2026-03-11-10-13-26.jpg,https://i.ibb.co/chskjR60/2026-03-11-10-26-24.jpg,https://i.ibb.co/zWhD417X/Screenshot-20260311-102806-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/jpmHMQY/20250716-2025-07-15-11-52-11.jpg">
         <span class="service-num">04</span>
         <div class="service-icon"><i class="fas fa-user" aria-hidden="true"></i></div>
         <h3>Retratos</h3>
         <p>Tu esencia personal. Retratos artísticos, lifestyle o clásicos para cualquier ocasión.</p>
         <button class="service-link" aria-label="Ver galería de Retratos">Ver galería <i class="fas fa-arrow-right"></i></button>
       </div>
-      <div class="service-card reveal" data-svc="Bodas" data-desc="El día más especial. Cobertura completa con estilo reportaje y edición cuidada." data-imgs="https://i.ibb.co/cScLQzz4/2026-03-11-10-20-30.jpg,https://i.ibb.co/Dg9vygY3/2026-03-11-10-20-40.jpg,https://i.ibb.co/fdN1mtjr/2026-03-11-10-21-19.jpg,https://i.ibb.co/zWwknry4/2026-03-11-10-21-28.jpg,https://i.ibb.co/Wv5zbjw0/2026-03-11-10-21-33.jpg,https://i.ibb.co/21zz0Kb3/2026-03-11-10-21-39.jpg,https://i.ibb.co/KjXKjm8J/2026-03-11-10-21-45.jpg,https://i.ibb.co/PZRhWD5t/2026-03-11-10-22-37.jpg,https://i.ibb.co/MytpkfpH/2026-03-11-10-22-44.jpg,https://i.ibb.co/ZzQ94Vhn/2026-03-11-10-22-48.jpg,https://i.ibb.co/mCkN7mvk/2026-03-11-10-22-58.jpg,https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg,https://i.ibb.co/BHBVYwP9/2026-03-11-10-23-17.jpg,https://i.ibb.co/JfMkVb3/2026-03-11-10-23-20.jpg,https://i.ibb.co/pjXxPkhj/2026-03-11-10-23-23.jpg,https://i.ibb.co/5xC23Lp4/2026-03-11-10-23-46.jpg,https://i.ibb.co/s99d9yqc/2026-03-11-10-24-13.jpg,https://i.ibb.co/DPqdMkRQ/2026-03-11-10-24-25.jpg,https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg,https://i.ibb.co/RGW112Gw/2026-03-11-10-24-59.jpg,https://i.ibb.co/WNBG8k6V/2026-03-11-10-25-02.jpg,https://i.ibb.co/V0Vhz4bW/2026-03-11-10-25-10.jpg,https://i.ibb.co/XrnPMVXN/2026-03-11-10-25-32.jpg,https://i.ibb.co/S41tCF6y/2026-03-11-10-26-04.jpg,https://i.ibb.co/k6c4QFkn/2026-03-11-10-25-50.jpg,https://i.ibb.co/ccr8Gn8R/2026-03-11-10-21-33.jpg,https://i.ibb.co/j9s0gw0X/2026-03-11-10-21-39.jpg,https://i.ibb.co/b5CzmcmK/2026-03-11-10-21-45.jpg,https://i.ibb.co/gZbCwwmz/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/KchKYj46/2026-03-11-10-22-44.jpg,https://i.ibb.co/Z6kGS6Yn/2026-03-11-10-22-48.jpg,https://i.ibb.co/VYFD0Y6R/2026-03-11-10-22-58.jpg">
+      <div class="service-card reveal" data-svc="Bodas" data-desc="El día más especial. Cobertura completa con estilo reportaje y edición cuidada." data-imgs="https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg,https://i.ibb.co/Tq47Sq1z/2026-03-11-10-20-40.jpg,https://i.ibb.co/1GXvHKFR/2026-03-11-10-21-19.jpg,https://i.ibb.co/MyLX2sYC/2026-03-11-10-21-28.jpg,https://i.ibb.co/QvQH2tRk/2026-03-11-10-21-33.jpg,https://i.ibb.co/HfccLgJT/2026-03-11-10-21-39.jpg,https://i.ibb.co/XZbYZVGq/2026-03-11-10-21-45.jpg,https://i.ibb.co/KjYqsK9m/2026-03-11-10-22-37.jpg,https://i.ibb.co/Q7TnvknV/2026-03-11-10-22-44.jpg,https://i.ibb.co/B2hkWtgX/2026-03-11-10-22-48.jpg,https://i.ibb.co/7JPkFHgP/2026-03-11-10-22-58.jpg,https://i.ibb.co/6RdzpR4G/2026-03-11-10-23-13.jpg,https://i.ibb.co/WNfWRs3L/2026-03-11-10-23-17.jpg,https://i.ibb.co/v7KzprX/2026-03-11-10-23-20.jpg,https://i.ibb.co/9HYNvdZH/2026-03-11-10-23-23.jpg,https://i.ibb.co/mFdSK4ZT/2026-03-11-10-23-46.jpg,https://i.ibb.co/4RRnRPpC/2026-03-11-10-24-13.jpg,https://i.ibb.co/MyXd1pC7/2026-03-11-10-24-25.jpg,https://i.ibb.co/NgT2j1fc/2026-03-11-10-24-47.jpg,https://i.ibb.co/kVFppKVC/2026-03-11-10-24-59.jpg,https://i.ibb.co/TDPYj4kW/2026-03-11-10-25-02.jpg,https://i.ibb.co/9mnf15B9/2026-03-11-10-25-10.jpg,https://i.ibb.co/xtnbd3hP/2026-03-11-10-25-32.jpg,https://i.ibb.co/h18BDvh5/2026-03-11-10-25-50.jpg,https://i.ibb.co/4ZVS6rSC/2026-03-11-10-21-33.jpg,https://i.ibb.co/CpDCh9CG/2026-03-11-10-21-39.jpg,https://i.ibb.co/xqBJLxL7/2026-03-11-10-21-45.jpg,https://i.ibb.co/7txFVVj2/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/mrTNmCZJ/2026-03-11-10-22-44.jpg,https://i.ibb.co/6Rfr8R13/2026-03-11-10-22-48.jpg,https://i.ibb.co/QvWn7v0L/2026-03-11-10-22-58.jpg,https://i.ibb.co/VXZTmWf/2026-03-11-10-23-13.jpg,https://i.ibb.co/Q70jfs3V/2026-03-11-10-23-17.jpg,https://i.ibb.co/mVVb2RQj/2026-03-11-10-23-20.jpg,https://i.ibb.co/S4vmByVJ/2026-03-11-10-23-23.jpg,https://i.ibb.co/wNwP0bLG/2026-03-11-10-23-46.jpg,https://i.ibb.co/kVjr9vVn/2026-03-11-10-24-47.jpg,https://i.ibb.co/dwnnLw33/2026-03-11-10-25-02.jpg">
         <span class="service-num">05</span>
         <div class="service-icon"><i class="fas fa-heart" aria-hidden="true"></i></div>
         <h3>Bodas</h3>
         <p>El día más especial. Cobertura completa con estilo reportaje y edición artesanal.</p>
         <button class="service-link" aria-label="Ver galería de Bodas">Ver galería <i class="fas fa-arrow-right"></i></button>
       </div>
-      <div class="service-card reveal reveal-delay-1" data-svc="Corporativo" data-desc="Imagen profesional para empresas. Retratos de perfil, equipo y productos." data-imgs="https://i.ibb.co/hRHD39yS/2026-03-11-10-09-20.jpg,https://i.ibb.co/vxQL2S3R/2026-03-11-10-09-04.jpg,https://i.ibb.co/S77qpr7X/2026-03-11-10-09-35.jpg,https://i.ibb.co/VcKmWYM9/2026-03-11-10-11-52.jpg,https://i.ibb.co/PsYxQPB0/2026-03-11-10-26-17.jpg,https://i.ibb.co/Q7HyzXjk/2026-03-11-10-30-25-edit-217354778074218.jpg,https://i.ibb.co/7NdgTHfH/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/fcfQpyW/20250716-2025-07-15-11-52-11.jpg">
+      <div class="service-card reveal reveal-delay-1" data-svc="Corporativo" data-desc="Imagen profesional para empresas. Retratos de perfil, equipo y productos." data-imgs="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg,https://i.ibb.co/gMPtsxSh/2026-03-11-10-09-04.jpg,https://i.ibb.co/FqqGtVqb/2026-03-11-10-09-35.jpg,https://i.ibb.co/zTkJhVPx/2026-03-11-10-11-52.jpg,https://i.ibb.co/GfJ7T8gN/2026-03-11-10-26-17.jpg,https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg,https://i.ibb.co/R4khM1F1/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/jpmHMQY/20250716-2025-07-15-11-52-11.jpg">
         <span class="service-num">06</span>
         <div class="service-icon"><i class="fas fa-user-tie" aria-hidden="true"></i></div>
         <h3>Corporativo</h3>
@@ -1863,7 +2059,7 @@ footer {
         <p>Sueños de princesa. Sesiones individuales y grupales para celebrar este momento único.</p>
         <button class="service-link" aria-label="Ver galería Quinceaños">Ver galería <i class="fas fa-arrow-right"></i></button>
       </div>
-      <div class="service-card reveal reveal-delay-3" data-svc="Colegios" data-desc="Graduaciones y promos. Fotos individuales, de grupos y de grados." data-imgs="https://i.ibb.co/sprjbXt6/2026-03-11-10-17-00.jpg,https://i.ibb.co/xqpG4T81/2026-03-11-10-17-04.jpg,https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg,https://i.ibb.co/TBf8zBbJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/7drHqgzH/2026-03-11-10-16-56.jpg,https://i.ibb.co/TD8m9Ldy/Screenshot-20260311-101731-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/6ckg5q1p/2026-03-11-10-17-41.jpg">
+      <div class="service-card reveal reveal-delay-3" data-svc="Colegios" data-desc="Graduaciones y promos. Fotos individuales, de grupos y de grados." data-imgs="https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg,https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg">
         <span class="service-num">08</span>
         <div class="service-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
         <h3>Colegios</h3>
@@ -1947,12 +2143,12 @@ footer {
       <span class="gold-line"></span>
     </div>
     <div class="bts-grid">
-      <div class="bts-item reveal"><img src="https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg" alt="Boda ceremonia" loading="lazy"><div class="bts-caption"><span>La ceremonia</span></div></div>
-      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/2Y5hf6Dr/2026-03-11-10-17-41.jpg" alt="Sesión maternidad" loading="lazy"><div class="bts-caption"><span>Sesión de maternidad</span></div></div>
-      <div class="bts-item reveal reveal-delay-2"><img src="https://i.ibb.co/S77qpr7X/2026-03-11-10-09-35.jpg" alt="Retrato" loading="lazy"><div class="bts-caption"><span>Sesión de retratos</span></div></div>
-      <div class="bts-item reveal"><img src="https://i.ibb.co/mFNYcDb1/2026-03-11-10-43-30.jpg" alt="Bebé" loading="lazy"><div class="bts-caption"><span>Sesión de bebé</span></div></div>
-      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="bts-caption"><span>Momentos únicos</span></div></div>
-      <div class="bts-item reveal reveal-delay-2"><img src="https://i.ibb.co/bMS4Ykrn/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato artístico" loading="lazy"><div class="bts-caption"><span>Retratos artísticos</span></div></div>
+      <div class="bts-item reveal"><img src="https://i.ibb.co/HLDY6p1B/2026-03-11-12-28-49.jpg" alt="Detrás de cámaras" loading="lazy"><div class="bts-caption"><span>Detrás de cámaras</span></div></div>
+      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/3mVZRDpL/2026-03-11-12-28-30.jpg" alt="El equipo en acción" loading="lazy"><div class="bts-caption"><span>El equipo en acción</span></div></div>
+      <div class="bts-item reveal reveal-delay-2"><img src="https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg" alt="Boda ceremonia" loading="lazy"><div class="bts-caption"><span>La ceremonia</span></div></div>
+      <div class="bts-item reveal reveal-delay-3"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Sesión maternidad" loading="lazy"><div class="bts-caption"><span>Sesión de maternidad</span></div></div>
+      <div class="bts-item reveal"><img src="https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="bts-caption"><span>Momentos únicos</span></div></div>
+      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato artístico" loading="lazy"><div class="bts-caption"><span>Retratos artísticos</span></div></div>
     </div>
   </div>
 </section>
@@ -2173,11 +2369,11 @@ footer {
       <span class="gold-line" style="margin:20px auto 0;"></span>
     </div>
     <div class="ig-strip">
-      <div class="ig-item"><img src="https://i.ibb.co/fVQkTJyS/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
-      <div class="ig-item"><img src="https://i.ibb.co/cScLQzz4/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
-      <div class="ig-item"><img src="https://i.ibb.co/hRHD39yS/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
+      <div class="ig-item"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
+      <div class="ig-item"><img src="https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
+      <div class="ig-item"><img src="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg" alt="Bebé" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
-      <div class="ig-item"><img src="https://i.ibb.co/Dg9vygY3/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
+      <div class="ig-item"><img src="https://i.ibb.co/Tq47Sq1z/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/WpGRBLDh/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/vxQL2S3R/2026-03-11-10-09-04.jpg" alt="Retrato" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/sprjbXt6/2026-03-11-10-17-00.jpg" alt="Graduación" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
@@ -2509,51 +2705,155 @@ const countObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
 
 /* ══════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX — CINEMATIC ZOOM FROM ORIGIN
 ══════════════════════════════════════════ */
-const lightbox = document.getElementById('lightbox');
-const lbImg = document.getElementById('lbImg');
-const lbCounter = document.getElementById('lbCounter');
-let lbImages = [], lbIdx = 0;
+(function() {
+  const lightbox  = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lbImg');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbThumbs  = document.getElementById('lbThumbs');
+  let lbImages = [], lbIdx = 0, originRect = null;
 
-function openLightbox(imgs, idx) {
-  lbImages = imgs; lbIdx = idx;
-  lbImg.src = lbImages[lbIdx];
-  lbCounter.textContent = (lbIdx+1) + ' / ' + lbImages.length;
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  lightbox.classList.remove('open');
-  document.body.style.overflow = '';
-  setTimeout(() => { lbImg.src = ''; }, 400);
-}
-function lbNav(dir) {
-  lbIdx = (lbIdx + dir + lbImages.length) % lbImages.length;
-  lbImg.style.opacity = 0;
-  setTimeout(() => {
+  function buildThumbs() {
+    lbThumbs.innerHTML = '';
+    const max = Math.min(lbImages.length, 7);
+    const start = Math.max(0, Math.min(lbIdx - 3, lbImages.length - max));
+    for (let i = start; i < start + max; i++) {
+      const t = document.createElement('img');
+      t.src = lbImages[i]; t.className = 'lb-thumb' + (i === lbIdx ? ' active' : '');
+      t.loading = 'lazy';
+      const idx = i;
+      t.addEventListener('click', e => { e.stopPropagation(); lbGoto(idx); });
+      lbThumbs.appendChild(t);
+    }
+  }
+
+  function openLightbox(imgs, idx, triggerEl) {
+    lbImages = imgs; lbIdx = idx;
+    // Get origin rect for zoom-from effect
+    originRect = triggerEl ? triggerEl.getBoundingClientRect() : null;
+
     lbImg.src = lbImages[lbIdx];
-    lbCounter.textContent = (lbIdx+1) + ' / ' + lbImages.length;
-    lbImg.style.opacity = 1;
-  }, 200);
-}
+    lbImg.onload = () => {
+      if (originRect) {
+        // Compute scale and translate to start at thumb position
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const imgW = lbImg.naturalWidth, imgH = lbImg.naturalHeight;
+        const ratio = Math.min((vw * 0.92) / imgW, (vh * 0.88) / imgH);
+        const finalW = imgW * ratio, finalH = imgH * ratio;
+        const ox = originRect.left + originRect.width / 2  - vw / 2;
+        const oy = originRect.top  + originRect.height / 2 - vh / 2;
+        const sx = originRect.width  / finalW;
+        const sy = originRect.height / finalH;
+        const sc = Math.max(sx, sy, 0.05);
+        lbImg.style.transition = 'none';
+        lbImg.style.transform  = `translate(${ox}px,${oy}px) scale(${sc})`;
+        lbImg.style.opacity    = '0.2';
+        void lbImg.offsetWidth; // reflow
+      }
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      buildThumbs();
+      lbCounter.textContent = (lbIdx + 1) + ' / ' + lbImages.length;
+      // Reset img transition so CSS takes over
+      requestAnimationFrame(() => {
+        lbImg.style.transition = '';
+        lbImg.style.transform  = 'scale(1) translate(0,0)';
+        lbImg.style.opacity    = '1';
+      });
+    };
+    // If already cached / no load event fires
+    if (lbImg.complete && lbImg.src) { lbImg.onload(); lbImg.onload = null; }
+  }
 
-document.getElementById('lbClose').addEventListener('click', closeLightbox);
-document.getElementById('lbPrev').addEventListener('click', () => lbNav(-1));
-document.getElementById('lbNext').addEventListener('click', () => lbNav(1));
-lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', e => {
-  if(!lightbox.classList.contains('open')) return;
-  if(e.key === 'Escape') closeLightbox();
-  if(e.key === 'ArrowLeft') lbNav(-1);
-  if(e.key === 'ArrowRight') lbNav(1);
-});
+  function closeLightbox() {
+    if (!lightbox.classList.contains('open')) return;
+    lightbox.classList.add('closing');
+    // Zoom back out to origin
+    if (originRect) {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const imgW = lbImg.naturalWidth  || lbImg.offsetWidth;
+      const imgH = lbImg.naturalHeight || lbImg.offsetHeight;
+      const ratio = Math.min((vw * 0.92) / imgW, (vh * 0.88) / imgH, 1);
+      const finalW = imgW * ratio, finalH = imgH * ratio;
+      const ox = originRect.left + originRect.width  / 2 - vw / 2;
+      const oy = originRect.top  + originRect.height / 2 - vh / 2;
+      const sc = Math.max(originRect.width / finalW, originRect.height / finalH, 0.05);
+      lbImg.style.transform = `translate(${ox}px,${oy}px) scale(${sc})`;
+      lbImg.style.opacity   = '0';
+    } else {
+      lbImg.style.transform = 'scale(0.88)';
+      lbImg.style.opacity   = '0';
+    }
+    setTimeout(() => {
+      lightbox.classList.remove('open', 'closing');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+      lbImg.style.transform = '';
+      lbImg.style.opacity   = '';
+      originRect = null;
+    }, 520);
+  }
 
-// Gallery masonry lightbox
-const galleryImgs = Array.from(document.querySelectorAll('#galleryMasonry .masonry-item img')).map(i => i.src);
-document.querySelectorAll('#galleryMasonry .masonry-item').forEach((item, idx) => {
-  item.addEventListener('click', () => openLightbox(galleryImgs, idx));
-});
+  function lbGoto(idx) {
+    if (idx === lbIdx) return;
+    lbIdx = (idx + lbImages.length) % lbImages.length;
+    // Quick cross-dissolve swap
+    lbImg.classList.add('lb-changing');
+    setTimeout(() => {
+      lbImg.src = lbImages[lbIdx];
+      lbCounter.textContent = (lbIdx + 1) + ' / ' + lbImages.length;
+      lbImg.classList.remove('lb-changing');
+      lbImg.classList.add('lb-entering');
+      lbImg.style.transform = 'scale(0.96)';
+      lbImg.style.opacity   = '1';
+      requestAnimationFrame(() => {
+        lbImg.style.transform = 'scale(1) translate(0,0)';
+        lbImg.classList.add('lb-entering');
+      });
+      setTimeout(() => lbImg.classList.remove('lb-entering'), 400);
+      buildThumbs();
+    }, 220);
+  }
+
+  function lbNav(dir) { lbGoto(lbIdx + dir); }
+
+  // Events
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => lbNav(-1));
+  document.getElementById('lbNext').addEventListener('click', () => lbNav(1));
+  document.getElementById('lbBackdrop').addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')   lbNav(-1);
+    if (e.key === 'ArrowRight')  lbNav(1);
+  });
+
+  // Touch swipe
+  let tsX = 0;
+  lightbox.addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tsX;
+    if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
+  });
+
+  // Expose globally
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+
+  // Gallery masonry — pass the trigger element for zoom origin
+  document.querySelectorAll('#galleryMasonry .masonry-item').forEach((item, idx) => {
+    item.addEventListener('click', () => {
+      const allImgs = Array.from(document.querySelectorAll('#galleryMasonry .masonry-item'))
+        .filter(it => !it.classList.contains('mi-hidden'))
+        .map(it => it.querySelector('img').src);
+      const clickedSrc = item.querySelector('img').src;
+      const clickedIdx = allImgs.indexOf(clickedSrc);
+      openLightbox(allImgs, clickedIdx >= 0 ? clickedIdx : 0, item.querySelector('img'));
+    });
+  });
+}());
 
 /* ══════════════════════════════════════════
    GALLERY FILTER TABS — CINEMATIC
@@ -3501,11 +3801,12 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
 ══════════════════════════════════════════ */
 (function() {
   const heroSlides = [
+    { url: 'https://i.ibb.co/6JVRqPSq/2026-03-11-12-30-01.jpg',        label: 'Estudio' },
     { url: 'https://i.ibb.co/ksc96fH4/DSC-4853-Enhanced-NR-2.jpg',        label: 'Familias' },
-    { url: 'https://i.ibb.co/cScLQzz4/2026-03-11-10-20-30.jpg',            label: 'Bodas' },
-    { url: 'https://i.ibb.co/hRHD39yS/2026-03-11-10-09-20.jpg',            label: 'Retratos' },
-    { url: 'https://i.ibb.co/fVQkTJyS/2026-03-11-10-16-17.jpg',            label: 'Maternidad' },
-    { url: 'https://i.ibb.co/MytpkfpH/2026-03-11-10-22-44.jpg',            label: 'Bodas' },
+    { url: 'https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg',            label: 'Bodas' },
+    { url: 'https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg',            label: 'Retratos' },
+    { url: 'https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg',            label: 'Maternidad' },
+    { url: 'https://i.ibb.co/Q7TnvknV/2026-03-11-10-22-44.jpg',            label: 'Bodas' },
     { url: 'https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg', label: 'Bebés' },
     { url: 'https://i.ibb.co/wZQW4fHh/20250716-DSC-4964-Enhanced-NR.jpg',  label: 'Familias' },
     { url: 'https://i.ibb.co/VcKmWYM9/2026-03-11-10-11-52.jpg',            label: 'Retratos' },
@@ -3538,6 +3839,9 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
   let timer = null;
   let progressTimer = null;
 
+  const slideLabelEl = document.getElementById('heroSlideLabel');
+  const slideCountEl = document.getElementById('heroSlideCount');
+
   function goTo(idx) {
     const prev = current;
     current = idx;
@@ -3549,6 +3853,9 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
     // Dots
     dotDivs[prev].classList.remove('active');
     dotDivs[current].classList.add('active');
+    // Update label & count
+    if (slideLabelEl) { slideLabelEl.style.opacity = '0'; setTimeout(() => { slideLabelEl.textContent = heroSlides[current].label; slideLabelEl.style.opacity = '1'; }, 300); }
+    if (slideCountEl) { const n = String(current+1).padStart(2,'0'); slideCountEl.innerHTML = `<strong>${n}</strong> / ${String(heroSlides.length).padStart(2,'0')}`; }
     // Reset progress bars
     dotDivs.forEach(d => { const p = d.querySelector('.hero-dot-progress'); if(p) { p.style.transition = 'none'; p.style.width = '0%'; } });
     // Animate active dot progress
