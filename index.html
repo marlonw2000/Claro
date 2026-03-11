@@ -320,9 +320,48 @@ section { padding: 100px 0; position: relative; z-index: 1; }
 .hero-bg {
   position: absolute; inset: 0;
   overflow: hidden;
+  background: var(--ink);
 }
+
+/* ── VIDEO BACKGROUND ── */
+.hero-video-wrap {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden;
+}
+.hero-video-wrap iframe {
+  position: absolute;
+  /* Oversized to crop letterboxing and cover full viewport */
+  top: 50%; left: 50%;
+  width: 177.78vh;  /* 16/9 * 100vh */
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw; /* 9/16 * 100vw */
+  transform: translate(-50%, -50%);
+  border: none;
+  pointer-events: none;
+}
+/* Cinematic overlay on top of video */
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,8,8,0.55) 0%,
+      rgba(8,8,8,0.25) 35%,
+      rgba(8,8,8,0.25) 60%,
+      rgba(8,8,8,0.88) 100%),
+    linear-gradient(to right, rgba(8,8,8,0.4) 0%, transparent 55%);
+}
+/* Subtle vignette */
+.hero-bg::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 3;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(8,8,8,0.45) 100%);
+  pointer-events: none;
+}
+
 .hero-slide {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 0;
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -339,13 +378,7 @@ section { padding: 100px 0; position: relative; z-index: 1; }
   transform: scale(0.97);
   transition: opacity 1.6s ease-in, transform 1.6s ease-in;
 }
-.hero-bg::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 2;
-  background:
-    linear-gradient(to bottom, rgba(8,8,8,0.2) 0%, transparent 30%, transparent 55%, rgba(8,8,8,0.85) 100%),
-    linear-gradient(to right, rgba(8,8,8,0.35) 0%, transparent 60%);
-}
+
 /* Cinematic letterbox bars */
 .hero-bar-top, .hero-bar-bottom {
   position: absolute; left: 0; right: 0; z-index: 3;
@@ -356,23 +389,7 @@ section { padding: 100px 0; position: relative; z-index: 1; }
 .hero-bar-bottom { bottom: 0; }
 .hero.cinematic-in .hero-bar-top,
 .hero.cinematic-in .hero-bar-bottom { height: 60px; }
-/* Category label on hero */
-.hero-category-badge {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(201,169,110,0.4);
-  padding: 5px 14px;
-  margin-bottom: 18px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.8s 0.3s, transform 0.8s 0.3s;
-}
-.hero-slide.active ~ .hero-content .hero-category-badge,
-.hero-category-badge.show { opacity: 1; transform: translateY(0); }
+
 /* Slide dots */
 .hero-dots {
   position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
@@ -390,6 +407,27 @@ section { padding: 100px 0; position: relative; z-index: 1; }
   position: absolute; top: 0; left: 0; height: 100%;
   background: var(--gold); width: 0%;
   transition: width linear;
+}
+
+/* "LIVE" video badge */
+.hero-live-badge {
+  position: absolute; top: 100px; right: 32px; z-index: 6;
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-body);
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  opacity: 0;
+  animation: fadeIn 1s 2s ease forwards;
+}
+.hero-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: livePulse 2s infinite;
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
 }
 @keyframes heroScale {
   from { transform: scale(1.05); }
@@ -1856,6 +1894,21 @@ footer {
   <div class="hero-bg" id="heroBg">
     <div class="hero-bar-top"></div>
     <div class="hero-bar-bottom"></div>
+    <!-- Looping video background -->
+    <div class="hero-video-wrap">
+      <iframe
+        src="https://player.cloudinary.com/embed/?cloud_name=dzreggmau&public_id=AhaTok_francofotografo_26cdee79-14aa-4d33-b786-1b58ad4a8574__oj7owo&player[autoplay]=true&player[loop]=true&player[muted]=true&player[controls]=false&player[autoplayMode]=always"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+        title="Claroscuro Fotografía showreel"
+      ></iframe>
+    </div>
+  </div>
+  <!-- Live badge -->
+  <div class="hero-live-badge">
+    <span class="hero-live-dot"></span>
+    Nuestro trabajo
   </div>
   <!-- Corner brackets -->
   <div class="hero-corner hero-corner-tl"></div>
@@ -1865,12 +1918,6 @@ footer {
   <!-- Side labels -->
   <div class="hero-side-label left">Fotografía profesional</div>
   <div class="hero-side-label right">Barrio Escalante · CR</div>
-  <!-- Slide metadata -->
-  <div class="hero-slide-tag">
-    <div class="hero-slide-tag-line"></div>
-    <span class="hero-slide-tag-text" id="heroSlideLabel">Familias</span>
-  </div>
-  <div class="hero-slide-count" id="heroSlideCount"><strong>01</strong> / 08</div>
   <div class="hero-content">
     <div class="hero-eyebrow"><span class="label">San José · Costa Rica</span></div>
     <h1>Claroscuro<em>Fotografía</em></h1>
@@ -1880,7 +1927,6 @@ footer {
       <a href="#portfolio" class="btn-ghost">Ver portafolio</a>
     </div>
   </div>
-  <div class="hero-dots" id="heroDots"></div>
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-line"></div>
@@ -3797,88 +3843,9 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
   card.addEventListener('click', () => openArticle(idx));
 });
 /* ══════════════════════════════════════════
-   HERO CINEMATIC SLIDESHOW
+   HERO VIDEO INIT
 ══════════════════════════════════════════ */
 (function() {
-  const heroSlides = [
-    { url: 'https://i.ibb.co/6JVRqPSq/2026-03-11-12-30-01.jpg',        label: 'Estudio' },
-    { url: 'https://i.ibb.co/ksc96fH4/DSC-4853-Enhanced-NR-2.jpg',        label: 'Familias' },
-    { url: 'https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg',            label: 'Bodas' },
-    { url: 'https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg',            label: 'Retratos' },
-    { url: 'https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg',            label: 'Maternidad' },
-    { url: 'https://i.ibb.co/Q7TnvknV/2026-03-11-10-22-44.jpg',            label: 'Bodas' },
-    { url: 'https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg', label: 'Bebés' },
-    { url: 'https://i.ibb.co/wZQW4fHh/20250716-DSC-4964-Enhanced-NR.jpg',  label: 'Familias' },
-    { url: 'https://i.ibb.co/VcKmWYM9/2026-03-11-10-11-52.jpg',            label: 'Retratos' },
-  ];
-  const INTERVAL = 5000;
-  const heroBg   = document.getElementById('heroBg');
-  const dotsEl   = document.getElementById('heroDots');
-  if (!heroBg || !dotsEl) return;
-
-  // Build slide divs
-  const slideDivs = heroSlides.map((s, i) => {
-    const d = document.createElement('div');
-    d.className = 'hero-slide';
-    d.style.backgroundImage = `url('${s.url}')`;
-    heroBg.appendChild(d);
-    return d;
-  });
-
-  // Build dots
-  const dotDivs = heroSlides.map((s, i) => {
-    const d = document.createElement('div');
-    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-    d.innerHTML = '<div class="hero-dot-progress"></div>';
-    d.addEventListener('click', () => goTo(i));
-    dotsEl.appendChild(d);
-    return d;
-  });
-
-  let current = 0;
-  let timer = null;
-  let progressTimer = null;
-
-  const slideLabelEl = document.getElementById('heroSlideLabel');
-  const slideCountEl = document.getElementById('heroSlideCount');
-
-  function goTo(idx) {
-    const prev = current;
-    current = idx;
-    // Slides
-    slideDivs[prev].classList.remove('active');
-    slideDivs[prev].classList.add('exit');
-    setTimeout(() => slideDivs[prev].classList.remove('exit'), 1800);
-    slideDivs[current].classList.add('active');
-    // Dots
-    dotDivs[prev].classList.remove('active');
-    dotDivs[current].classList.add('active');
-    // Update label & count
-    if (slideLabelEl) { slideLabelEl.style.opacity = '0'; setTimeout(() => { slideLabelEl.textContent = heroSlides[current].label; slideLabelEl.style.opacity = '1'; }, 300); }
-    if (slideCountEl) { const n = String(current+1).padStart(2,'0'); slideCountEl.innerHTML = `<strong>${n}</strong> / ${String(heroSlides.length).padStart(2,'0')}`; }
-    // Reset progress bars
-    dotDivs.forEach(d => { const p = d.querySelector('.hero-dot-progress'); if(p) { p.style.transition = 'none'; p.style.width = '0%'; } });
-    // Animate active dot progress
-    requestAnimationFrame(() => {
-      const p = dotDivs[current].querySelector('.hero-dot-progress');
-      if(p) { p.style.transition = `width ${INTERVAL}ms linear`; p.style.width = '100%'; }
-    });
-    // Restart timer
-    clearInterval(timer);
-    timer = setInterval(next, INTERVAL);
-  }
-
-  function next() { goTo((current + 1) % heroSlides.length); }
-
-  // Start
-  slideDivs[0].classList.add('active');
-  // Slight delay so bars init properly
-  setTimeout(() => {
-    const p = dotDivs[0].querySelector('.hero-dot-progress');
-    if(p) { p.style.transition = `width ${INTERVAL}ms linear`; p.style.width = '100%'; }
-  }, 100);
-  timer = setInterval(next, INTERVAL);
-
   // Remove cinematic bars after entrance
   const hero = document.querySelector('.hero');
   if (hero) setTimeout(() => hero.classList.remove('cinematic-in'), 1200);
