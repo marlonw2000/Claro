@@ -2512,7 +2512,7 @@ footer {
           </div>
           <div class="info-item">
             <div class="info-icon"><i class="fas fa-envelope"></i></div>
-            <div><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="234a4d454c63404f42514c504056514c454c574c0d404c4e">[email&#160;protected]</a></p></div>
+            <div><h4>Email</h4><p><a href="mailto:marlonfotoscr@gmail.com" style="color:inherit;">marlonfotoscr@gmail.com</a></p></div>
           </div>
           <div class="info-item">
             <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -2602,8 +2602,8 @@ footer {
       <div class="footer-col">
         <h4>Contacto</h4>
         <ul>
-          <li><a href="https://wa.me/50664380181"><i class="fas fa-phone"></i> +506 6438-0181</a></li>
-          <li><a href="/cdn-cgi/l/email-protection#472e29212807242b2635283424323528212833286924282a"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="5930373f36193a35382b362a3a2c2b363f362d36773a3634">[email&#160;protected]</span></a></li>
+          <li><a href="https://wa.me/50664380181?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20de%20fotograf%C3%ADa.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F"><i class="fas fa-phone"></i> +506 6438-0181</a></li>
+          <li><a href="mailto:marlonfotoscr@gmail.com"><i class="fas fa-envelope"></i> marlonfotoscr@gmail.com</a></li>
           <li><a href="#contacto"><i class="fas fa-map-marker-alt"></i> Barrio Escalante, SJ</a></li>
           <li><a href="#"><i class="fas fa-clock"></i> Lun–Sáb 8am – 6pm</a></li>
         </ul>
@@ -3024,20 +3024,35 @@ function showToast(msg) {
 
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
+  const name    = document.getElementById('fname').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const phone   = document.getElementById('fphone').value.trim();
+  const type    = document.getElementById('ftype').value;
+  const msg     = document.getElementById('fmsg').value.trim();
+
+  const subject = encodeURIComponent(`Consulta de sesión fotográfica – ${type || 'General'}`);
+  const body    = encodeURIComponent(
+    `Nombre: ${name}\n` +
+    `Correo: ${email}\n` +
+    (phone ? `Teléfono: ${phone}\n` : '') +
+    `Tipo de sesión: ${type || 'No especificado'}\n\n` +
+    `Mensaje:\n${msg}\n\n` +
+    `---\nEnviado desde el sitio web de Claroscuro Fotografía`
+  );
+
+  // Open native mail client addressed to studio, from client's email
+  window.location.href = `mailto:marlonfotoscr@gmail.com?subject=${subject}&body=${body}`;
+
   const btn = e.target.querySelector('button[type=submit]');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-check"></i> ¡Listo!';
+  btn.style.background = '#4caf50';
+  showToast('✓ Abriendo tu correo para enviar el mensaje...');
+  e.target.reset();
   setTimeout(() => {
-    btn.innerHTML = '<i class="fas fa-check"></i> Enviado';
-    btn.style.background = '#4caf50';
-    showToast('✓ Mensaje enviado. Te contactaremos pronto.');
-    e.target.reset();
-    setTimeout(() => {
-      btn.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane"></i>';
-      btn.style.background = '';
-      btn.disabled = false;
-    }, 3000);
-  }, 1500);
+    btn.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane"></i>';
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 3000);
 });
 
 document.getElementById('nlForm').addEventListener('submit', e => {
@@ -3863,7 +3878,7 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
 </script>
 
 <!-- WhatsApp floating button -->
-<a href="https://wa.me/50664380181" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
+<a href="https://wa.me/50664380181?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20de%20fotograf%C3%ADa.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
    style="position:fixed;bottom:28px;right:28px;z-index:9999;
           width:56px;height:56px;border-radius:50%;
           background:#25d366;display:flex;align-items:center;justify-content:center;
