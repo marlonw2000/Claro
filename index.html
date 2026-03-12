@@ -3137,8 +3137,8 @@ document.getElementById('nlForm').addEventListener('submit', async function(e) {
   try {
     // Mailchimp subscribe via proxy (CORS-safe)
     const MC_DC       = 'us14';
-    const MC_LIST_ID  = 'da0f6cfc56';
-    const MC_API_KEY  = '842cbcfb2df902d8540c2bbb24735669-us14';
+    const MC_LIST_ID  = '';
+    const MC_API_KEY  = '';
 
     // Use Mailchimp's public JSONP endpoint (no CORS issues)
     const domain = MC_API_KEY.split('-')[1]; // us14
@@ -4222,7 +4222,7 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
   const EMAIL = 'marlonfotoscr@gmail.com';
   const SINPE = '7202-7559';
   const RESERVA_PCT = 20;
-  const CLAUDE_KEY  = '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';
+  // Keys stored securely in Netlify environment variables
 
   const SYSTEM_PROMPT = `Sos el asistente virtual de Claroscuro Fotografía, un estudio fotográfico profesional ubicado en Barrio Escalante, San José, Costa Rica.
 
