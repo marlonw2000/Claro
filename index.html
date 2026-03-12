@@ -2251,6 +2251,78 @@ footer {
   pointer-events: none;
 }
 .masonry-item:hover .masonry-expand-icon { transform: translate(-50%, -50%) scale(1); }
+
+/* ══════════════════════════════════════════
+   WHATSAPP FLOATING BUTTON
+══════════════════════════════════════════ */
+.wa-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.wa-tooltip {
+  background: #fff;
+  color: #111;
+  font-size: 0.74rem;
+  font-family: var(--sans);
+  padding: 8px 14px;
+  border-radius: 20px 20px 4px 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s, transform 0.4s;
+  pointer-events: none;
+  line-height: 1.4;
+}
+.wa-tooltip strong { color: #25d366; display: block; font-size: 0.68rem; letter-spacing: 0.05em; }
+.wa-float:hover .wa-tooltip { opacity: 1; transform: translateY(0); }
+.wa-btn {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: #25d366;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.5);
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+  animation: waPulseFloat 2.8s ease-in-out infinite;
+  position: relative;
+}
+@keyframes waPulseFloat {
+  0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.5), 0 0 0 0 rgba(37,211,102,0.4); }
+  50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.7), 0 0 0 12px rgba(37,211,102,0); }
+}
+.wa-btn:hover { transform: scale(1.12); box-shadow: 0 8px 32px rgba(37,211,102,0.65); }
+.wa-btn:active { transform: scale(0.96); }
+.wa-btn i { color: #fff; font-size: 1.8rem; }
+.wa-number {
+  position: absolute;
+  top: -8px; left: 50%; transform: translateX(-50%);
+  background: #128c7e;
+  color: #fff;
+  font-size: 0.52rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.wa-float:hover .wa-number { opacity: 1; }
+@media (max-width: 640px) {
+  .wa-float { bottom: 20px; right: 16px; }
+  .wa-btn { width: 54px; height: 54px; }
+  .wa-btn i { font-size: 1.6rem; }
+}
 </style>
 
 <!-- Structured data -->
@@ -2285,6 +2357,20 @@ footer {
 
 <!-- BACK TO TOP -->
 <button class="btt" id="btt" aria-label="Volver arriba"><i class="fas fa-chevron-up"></i></button>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<div class="wa-float">
+  <div class="wa-tooltip">
+    <strong>+506 6438-0181</strong>
+    ¡Escribinos, con gusto te atendemos! 😊
+  </div>
+  <a class="wa-btn"
+     href="https://wa.me/50664380181?text=Hola%2C%20vi%20su%20portafolio%20en%20la%20web%20y%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20de%20fotograf%C3%ADa.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F%20%F0%9F%93%B8"
+     target="_blank" rel="noopener" aria-label="Contactar por WhatsApp al +506 6438-0181">
+    <span class="wa-number">+506 6438-0181</span>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de imágenes">
@@ -2497,7 +2583,7 @@ footer {
       <!-- MATERNIDAD -->
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad natural" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
       <!-- BODAS -->
@@ -2577,7 +2663,7 @@ footer {
       <span class="gold-line"></span>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal" data-svc="Maternidad" data-desc="Sesiones emotivas que celebran la llegada de una nueva vida. Usamos luz natural y telas suaves." data-imgs="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg,https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg,https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg,https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg">
+      <div class="service-card reveal" data-svc="Maternidad" data-desc="Sesiones emotivas que celebran la llegada de una nueva vida. Usamos luz natural y telas suaves." data-imgs="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg,https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg,https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg,https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg,https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg">
         <span class="service-num">01</span>
         <div class="service-icon"><i class="fas fa-child" aria-hidden="true"></i></div>
         <h3>Maternidad</h3>
@@ -2715,7 +2801,7 @@ footer {
       <div class="bts-item reveal"><img src="https://i.ibb.co/HLDY6p1B/2026-03-11-12-28-49.jpg" alt="Detrás de cámaras" loading="lazy"><div class="bts-caption"><span>Detrás de cámaras</span></div></div>
       <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/3mVZRDpL/2026-03-11-12-28-30.jpg" alt="El equipo en acción" loading="lazy"><div class="bts-caption"><span>El equipo en acción</span></div></div>
       <div class="bts-item reveal reveal-delay-2"><img src="https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg" alt="Boda ceremonia" loading="lazy"><div class="bts-caption"><span>La ceremonia</span></div></div>
-      <div class="bts-item reveal reveal-delay-3"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Sesión maternidad" loading="lazy"><div class="bts-caption"><span>Sesión de maternidad</span></div></div>
+      <div class="bts-item reveal reveal-delay-3"><img src="https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg" alt="Sesión maternidad" loading="lazy"><div class="bts-caption"><span>Sesión de maternidad</span></div></div>
       <div class="bts-item reveal"><img src="https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="bts-caption"><span>Momentos únicos</span></div></div>
       <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato artístico" loading="lazy"><div class="bts-caption"><span>Retratos artísticos</span></div></div>
     </div>
@@ -2860,7 +2946,7 @@ footer {
       </article>
 
       <article class="blog-card reveal reveal-delay-2" data-article="2">
-        <div class="blog-img-wrap"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop" alt="Fotografía de bodas" loading="lazy"></div>
+        <div class="blog-img-wrap"><img src="https://i.ibb.co/WNBG8k6V/2026-03-11-10-25-02.jpg" alt="Fotografía de bodas" loading="lazy"></div>
         <div class="blog-body">
           <span class="blog-cat">Bodas</span>
           <h3>Fotografía de bodas: tendencias 2025</h3>
@@ -2870,7 +2956,7 @@ footer {
       </article>
 
       <article class="blog-card reveal" data-article="3">
-        <div class="blog-img-wrap"><img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?q=80&w=600&auto=format&fit=crop" alt="Bebé recién nacido" loading="lazy"></div>
+        <div class="blog-img-wrap"><img src="https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg" alt="Bebé recién nacido" loading="lazy"></div>
         <div class="blog-body">
           <span class="blog-cat">Bebés &amp; RN</span>
           <h3>Guía completa para sesiones con recién nacidos</h3>
@@ -2938,7 +3024,7 @@ footer {
       <span class="gold-line" style="margin:20px auto 0;"></span>
     </div>
     <div class="ig-strip">
-      <div class="ig-item"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
+      <div class="ig-item"><img src="https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
       <div class="ig-item"><img src="https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg" alt="Bebé" loading="lazy"><div class="ig-overlay"><i class="fab fa-instagram"></i></div></div>
@@ -3676,7 +3762,7 @@ const articles = [
     author: 'Marlon Wright',
     authorImg: 'https://i.ibb.co/wrY382PJ/IMG-20260218-WA0015.jpg',
     readTime: 6,
-    heroImg: 'https://images.unsplash.com/photo-1506099914961-765be7a97019?q=80&w=1400&auto=format&fit=crop',
+    heroImg: 'https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg',
     tags: ['Maternidad', 'Preparación', 'Vestuario', 'Tips'],
     content: `
       <p>La sesión de maternidad es uno de esos momentos que querrás recordar para siempre. No es solo una fotografía: es un testimonio del amor que ya sientes antes de conocer a tu bebé. Pero para que todo salga perfecto, la preparación es clave.</p>
@@ -3781,7 +3867,7 @@ const articles = [
     author: 'Guillermo Ramírez',
     authorImg: 'https://i.ibb.co/FLT30nKT/IMG-20260310-WA0042.jpg',
     readTime: 7,
-    heroImg: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1400&auto=format&fit=crop',
+    heroImg: 'https://i.ibb.co/WNBG8k6V/2026-03-11-10-25-02.jpg',
     tags: ['Bodas', 'Tendencias', '2025', 'Fotógrafo de bodas'],
     content: `
       <p>El mundo de la fotografía nupcial está evolucionando a una velocidad fascinante. Las bodas de 2025 están marcadas por una búsqueda de <strong>autenticidad, emoción cruda y estética cinematográfica</strong>. Atrás quedaron los retratos rígidos frente al altar. Aquí te contamos lo que está pasando.</p>
@@ -3819,7 +3905,7 @@ const articles = [
     author: 'Marlon Wright',
     authorImg: 'https://i.ibb.co/wrY382PJ/IMG-20260218-WA0015.jpg',
     readTime: 8,
-    heroImg: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1400&auto=format&fit=crop',
+    heroImg: 'https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg',
     tags: ['Bebés', 'Recién nacidos', 'Seguridad', 'Guía'],
     content: `
       <p>Las sesiones de recién nacidos son las más tiernas y también las que requieren <strong>más preparación y cuidado</strong>. Un bebé de pocos días es un ser completamente vulnerable, y cada decisión durante la sesión debe priorizar su seguridad y bienestar por encima de cualquier foto.</p>
@@ -4148,7 +4234,7 @@ const ARTICLES = [
     readTime: '7 min',
     title: 'Fotografía de bodas: las grandes tendencias de 2025',
     subtitle: 'El fotoperiodismo emocional, los retratos de película y la intimidad son los protagonistas de la nueva fotografía nupcial.',
-    img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop',
+    img: 'https://i.ibb.co/WNBG8k6V/2026-03-11-10-25-02.jpg',
     content: `
       <p>La fotografía de bodas vive un momento de transformación profunda. Atrás quedan las poses rígidas, las fotos sobreproducidas y los filtros saturados. En 2025 los novios piden autenticidad, emoción y narrativa. Quieren que sus fotos cuenten una historia, no que demuestren que el fotógrafo domina el Photoshop. En Claroscuro llevamos años documentando bodas con este enfoque y queremos compartir las tendencias que más están marcando el mercado nupcial.</p>
 
@@ -4208,7 +4294,7 @@ const ARTICLES = [
     readTime: '8 min',
     title: 'Guía completa para sesiones con recién nacidos',
     subtitle: 'Seguridad, timing, temperatura y amor: todo lo que necesitas saber para que la sesión de tu bebé sea perfecta.',
-    img: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?q=80&w=1200&auto=format&fit=crop',
+    img: 'https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg',
     content: `
       <p>Fotografiar a un recién nacido es uno de los trabajos más delicados y hermosos que existen. Esos primeros días son increíblemente fugaces —en semanas el bebé ya habrá cambiado radicalmente— y capturarlos bien requiere preparación, paciencia y un entorno seguro. En Claroscuro hemos fotografiado a cientos de recién nacidos y queremos compartir todo lo que hemos aprendido.</p>
 
