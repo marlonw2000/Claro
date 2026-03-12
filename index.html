@@ -1142,127 +1142,56 @@ section { padding: 100px 0; position: relative; z-index: 1; }
   position: relative;
   overflow: hidden;
 }
-/* Full-bleed video background */
+/* Label row above the video */
+.bts-header {
+  padding: 72px 24px 32px;
+  text-align: center;
+  background: var(--ink);
+}
+.bts-header .label {
+  display: block;
+  margin-bottom: 12px;
+}
+.bts-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.bts-header h2 em {
+  font-style: normal;
+  color: var(--gold);
+}
+.bts-header .gold-line { margin: 16px auto 0; }
+/* Full-bleed video — same technique as hero */
 .bts-bg-video {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100vh;
+  min-height: 500px;
   overflow: hidden;
   background: var(--ink);
 }
 .bts-bg-video iframe {
   position: absolute;
   top: 50%; left: 50%;
-  /* Scale up slightly to hide any player chrome at edges */
-  width: calc(100% + 4px);
+  /* Always oversized to fill — same math as hero */
+  width: max(177.78vh, 177.78vw);
+  height: max(100vh, 56.25vw);
+  min-width: 100%;
   min-height: 100%;
-  aspect-ratio: 16 / 9;
-  transform: translate(-50%, -50%) scale(1.04);
+  transform: translate(-50%, -50%);
   border: none;
   pointer-events: none;
-  display: block;
 }
-/* Transparent click blocker — hides any Cloudinary controls that bleed through */
+/* Click blocker */
 .bts-click-blocker {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: absolute; inset: 0; z-index: 2;
   background: transparent;
   pointer-events: all;
   cursor: default;
-}
-/* Cinematic overlay */
-.bts-bg-video::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background:
-    linear-gradient(to bottom,
-      rgba(8,8,8,0.35) 0%,
-      rgba(8,8,8,0.1)  30%,
-      rgba(8,8,8,0.1)  60%,
-      rgba(8,8,8,0.85) 100%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(8,8,8,0.4) 100%);
-  pointer-events: none;
-}
-/* Text overlay on top of video */
-.bts-overlay-content {
-  position: absolute; inset: 0; z-index: 2;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-end;
-  padding: 0 24px 48px;
-  text-align: center;
-}
-@media (min-width: 640px) {
-  .bts-overlay-content { padding: 0 48px 60px; }
-}
-.bts-overlay-eyebrow {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 14px;
-}
-.bts-overlay-eyebrow::before,
-.bts-overlay-eyebrow::after {
-  content: ''; width: 36px; height: 1px;
-  background: rgba(201,169,110,0.6); flex-shrink: 0;
-}
-.bts-overlay-live {
-  display: flex; align-items: center; gap: 7px;
-}
-.bts-overlay-live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px var(--gold);
-  animation: livePulse 2s infinite;
-}
-.bts-overlay-live-text {
-  font-size: 0.58rem; letter-spacing: 0.28em;
-  text-transform: uppercase; color: rgba(255,255,255,0.55);
-}
-.bts-overlay-title {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--white);
-  line-height: 1.05;
-  margin-bottom: 14px;
-  text-shadow: 0 4px 32px rgba(0,0,0,0.7);
-}
-.bts-overlay-title em {
-  font-style: normal;
-  color: var(--gold);
-  display: block;
-}
-.bts-overlay-sub {
-  font-size: clamp(0.78rem, 2vw, 0.92rem);
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.08em;
-  max-width: 480px;
-  margin: 0 auto 28px;
-  line-height: 1.65;
-}
-.bts-overlay-cta {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 13px 32px;
-  border: 1px solid rgba(201,169,110,0.5);
-  color: var(--gold-light);
-  font-size: 0.65rem; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  text-decoration: none;
-  background: rgba(8,8,8,0.35);
-  backdrop-filter: blur(6px);
-  border-radius: 2px;
-  transition: all 0.35s var(--ease-out);
-}
-.bts-overlay-cta:hover {
-  background: var(--gold);
-  color: var(--ink);
-  border-color: var(--gold);
-}
-/* Section header inside the section (above video) */
-.bts .bts-header-wrap {
-  padding: 80px 24px 0;
-  text-align: center;
-  position: relative; z-index: 1;
 }
 .bts-grid {
   display: grid;
@@ -3002,7 +2931,13 @@ footer {
 
 <!-- ═══════════════ BTS ═══════════════ -->
 <section id="bts" class="bts">
-  <!-- Video background full-bleed 16:9 -->
+  <!-- Header above the video -->
+  <div class="bts-header reveal">
+    <span class="label">El proceso</span>
+    <h2>Detrás de <em>Cámaras</em></h2>
+    <span class="gold-line"></span>
+  </div>
+  <!-- Full-bleed video — same technique as hero -->
   <div class="bts-bg-video">
     <iframe
       src="https://player.cloudinary.com/embed/?cloud_name=dzreggmau&public_id=AhaTok_francofotografo_4acb2c7c-ebf3-48ab-a6fb-1740529eb922__stl28h&player[muted]=true&player[autoplay]=true&player[loop]=true&player[controls]=false&player[autoplayMode]=always&player[showLogo]=false&player[fluid]=true"
@@ -3010,20 +2945,7 @@ footer {
       frameborder="0"
       title="Detrás de cámaras · Claroscuro Fotografía"
     ></iframe>
-    <!-- Blocks any player chrome from being clickable -->
     <div class="bts-click-blocker" aria-hidden="true"></div>
-    <!-- Text overlay -->
-    <div class="bts-overlay-content">
-      <div class="bts-overlay-eyebrow">
-        <div class="bts-overlay-live">
-          <span class="bts-overlay-live-dot"></span>
-          <span class="bts-overlay-live-text">El proceso</span>
-        </div>
-      </div>
-      <h2 class="bts-overlay-title">Detrás de<em>Cámaras</em></h2>
-      <p class="bts-overlay-sub">Una mirada íntima al proceso creativo — la luz, el encuadre y la emoción que construyen cada imagen.</p>
-      <a href="#contacto" class="bts-overlay-cta">Agenda tu sesión <i class="fas fa-arrow-right"></i></a>
-    </div>
   </div>
 </section>
 
