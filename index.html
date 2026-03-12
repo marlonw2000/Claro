@@ -4058,12 +4058,14 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
 
 /* Chat toggle button */
 #chatToggle {
-  position:fixed; bottom:28px; right:100px; z-index:9998;
-  width:58px; height:58px; border-radius:50%;
+  position:fixed; bottom:28px; right:100px; z-index:9999;
+  width:62px; height:62px; border-radius:50%;
   background:#1c1c1c; border:2px solid rgba(201,169,110,0.6);
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   box-shadow:0 4px 20px rgba(0,0,0,0.4);
   transition:transform .3s, background .3s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 #chatToggle:hover{ transform:scale(1.1); background:#2a2a2a; }
 #chatToggle i{ color:#c9a96e; font-size:1.3rem; }
@@ -4189,10 +4191,10 @@ document.querySelectorAll('.blog-card').forEach((card, idx) => {
 </a>
 
 <!-- Chat toggle -->
-<div id="chatToggle" role="button" aria-label="Abrir chat" onclick="toggleChat()">
+<button id="chatToggle" aria-label="Abrir chat" onclick="toggleChat()" type="button" style="background:none;border:none;padding:0;">
   <span id="chatBadge">1</span>
   <i class="fas fa-comment-dots"></i>
-</div>
+</button>
 
 <!-- Chat window -->
 <div id="chatWindow" role="dialog" aria-label="Chat de Claroscuro">
@@ -4268,6 +4270,17 @@ INSTRUCCIONES:
   let userData = {};
   let collectingLead = false;
   let leadStep = '';
+
+  // Also handle touch for mobile
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('chatToggle');
+    if(btn){
+      btn.addEventListener('touchend', function(e){
+        e.preventDefault();
+        toggleChat();
+      });
+    }
+  });
 
   window.toggleChat = function(){
     chatOpen = !chatOpen;
