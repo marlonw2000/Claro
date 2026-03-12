@@ -1136,7 +1136,134 @@ section { padding: 100px 0; position: relative; z-index: 1; }
 /* ══════════════════════════════════════════
    BEHIND THE SCENES
 ══════════════════════════════════════════ */
-.bts { background: var(--ink-soft); }
+.bts {
+  background: var(--ink);
+  padding: 0 !important;
+  position: relative;
+  overflow: hidden;
+}
+/* Full-bleed video background */
+.bts-bg-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ink);
+}
+.bts-bg-video iframe {
+  position: absolute;
+  top: 50%; left: 50%;
+  /* Scale up slightly to hide any player chrome at edges */
+  width: calc(100% + 4px);
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%) scale(1.04);
+  border: none;
+  pointer-events: none;
+  display: block;
+}
+/* Transparent click blocker — hides any Cloudinary controls that bleed through */
+.bts-click-blocker {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: transparent;
+  pointer-events: all;
+  cursor: default;
+}
+/* Cinematic overlay */
+.bts-bg-video::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,8,8,0.35) 0%,
+      rgba(8,8,8,0.1)  30%,
+      rgba(8,8,8,0.1)  60%,
+      rgba(8,8,8,0.85) 100%),
+    radial-gradient(ellipse at center, transparent 40%, rgba(8,8,8,0.4) 100%);
+  pointer-events: none;
+}
+/* Text overlay on top of video */
+.bts-overlay-content {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding: 0 24px 48px;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .bts-overlay-content { padding: 0 48px 60px; }
+}
+.bts-overlay-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+}
+.bts-overlay-eyebrow::before,
+.bts-overlay-eyebrow::after {
+  content: ''; width: 36px; height: 1px;
+  background: rgba(201,169,110,0.6); flex-shrink: 0;
+}
+.bts-overlay-live {
+  display: flex; align-items: center; gap: 7px;
+}
+.bts-overlay-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: livePulse 2s infinite;
+}
+.bts-overlay-live-text {
+  font-size: 0.58rem; letter-spacing: 0.28em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55);
+}
+.bts-overlay-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 14px;
+  text-shadow: 0 4px 32px rgba(0,0,0,0.7);
+}
+.bts-overlay-title em {
+  font-style: normal;
+  color: var(--gold);
+  display: block;
+}
+.bts-overlay-sub {
+  font-size: clamp(0.78rem, 2vw, 0.92rem);
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.08em;
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+.bts-overlay-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 32px;
+  border: 1px solid rgba(201,169,110,0.5);
+  color: var(--gold-light);
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none;
+  background: rgba(8,8,8,0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 2px;
+  transition: all 0.35s var(--ease-out);
+}
+.bts-overlay-cta:hover {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+/* Section header inside the section (above video) */
+.bts .bts-header-wrap {
+  padding: 80px 24px 0;
+  text-align: center;
+  position: relative; z-index: 1;
+}
 .bts-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2323,6 +2450,91 @@ footer {
   .wa-btn { width: 54px; height: 54px; }
   .wa-btn i { font-size: 1.6rem; }
 }
+
+/* ══════════════════════════════════════════
+   BTS VIDEO SECTION
+══════════════════════════════════════════ */
+.bts-video-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,169,110,0.12);
+}
+.bts-video-wrap iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 640 / 360;
+  height: auto;
+  border: none;
+}
+/* Decorative corner brackets */
+.bts-video-frame {
+  position: relative;
+  padding: 0;
+}
+.bts-video-frame::before,
+.bts-video-frame::after {
+  content: '';
+  position: absolute;
+  width: 32px; height: 32px;
+  z-index: 2;
+  pointer-events: none;
+}
+.bts-video-frame::before {
+  top: -1px; left: -1px;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+.bts-video-frame::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+}
+.bts-video-corner-tr {
+  position: absolute; top: -1px; right: -1px;
+  width: 32px; height: 32px;
+  border-top: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+  z-index: 2; pointer-events: none;
+}
+.bts-video-corner-bl {
+  position: absolute; bottom: -1px; left: -1px;
+  width: 32px; height: 32px;
+  border-bottom: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+  z-index: 2; pointer-events: none;
+}
+.bts-video-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 0;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.bts-video-tag {
+  display: flex; align-items: center; gap: 10px;
+}
+.bts-video-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: livePulse 2s infinite;
+}
+.bts-video-label {
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold);
+}
+.bts-video-desc {
+  font-size: 0.8rem;
+  color: var(--ash);
+  letter-spacing: 0.04em;
+  font-style: italic;
+  font-family: var(--serif);
+}
 </style>
 
 <!-- Structured data -->
@@ -2790,19 +3002,27 @@ footer {
 
 <!-- ═══════════════ BTS ═══════════════ -->
 <section id="bts" class="bts">
-  <div class="wrap">
-    <div class="section-header reveal">
-      <span class="label">El proceso</span>
-      <h2>Detrás de Cámaras</h2>
-      <span class="gold-line"></span>
-    </div>
-    <div class="bts-grid">
-      <div class="bts-item reveal"><img src="https://i.ibb.co/HLDY6p1B/2026-03-11-12-28-49.jpg" alt="Detrás de cámaras" loading="lazy"><div class="bts-caption"><span>Detrás de cámaras</span></div></div>
-      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/3mVZRDpL/2026-03-11-12-28-30.jpg" alt="El equipo en acción" loading="lazy"><div class="bts-caption"><span>El equipo en acción</span></div></div>
-      <div class="bts-item reveal reveal-delay-2"><img src="https://i.ibb.co/svBnDvFc/2026-03-11-10-23-13.jpg" alt="Boda ceremonia" loading="lazy"><div class="bts-caption"><span>La ceremonia</span></div></div>
-      <div class="bts-item reveal reveal-delay-3"><img src="https://i.ibb.co/Dg1mTgtn/20250716-FB-IMG-1717627029680.jpg" alt="Sesión maternidad" loading="lazy"><div class="bts-caption"><span>Sesión de maternidad</span></div></div>
-      <div class="bts-item reveal"><img src="https://i.ibb.co/WNVvyD7m/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="bts-caption"><span>Momentos únicos</span></div></div>
-      <div class="bts-item reveal reveal-delay-1"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato artístico" loading="lazy"><div class="bts-caption"><span>Retratos artísticos</span></div></div>
+  <!-- Video background full-bleed 16:9 -->
+  <div class="bts-bg-video">
+    <iframe
+      src="https://player.cloudinary.com/embed/?cloud_name=dzreggmau&public_id=AhaTok_francofotografo_4acb2c7c-ebf3-48ab-a6fb-1740529eb922__stl28h&player[muted]=true&player[autoplay]=true&player[loop]=true&player[controls]=false&player[autoplayMode]=always&player[showLogo]=false&player[fluid]=true"
+      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+      frameborder="0"
+      title="Detrás de cámaras · Claroscuro Fotografía"
+    ></iframe>
+    <!-- Blocks any player chrome from being clickable -->
+    <div class="bts-click-blocker" aria-hidden="true"></div>
+    <!-- Text overlay -->
+    <div class="bts-overlay-content">
+      <div class="bts-overlay-eyebrow">
+        <div class="bts-overlay-live">
+          <span class="bts-overlay-live-dot"></span>
+          <span class="bts-overlay-live-text">El proceso</span>
+        </div>
+      </div>
+      <h2 class="bts-overlay-title">Detrás de<em>Cámaras</em></h2>
+      <p class="bts-overlay-sub">Una mirada íntima al proceso creativo — la luz, el encuadre y la emoción que construyen cada imagen.</p>
+      <a href="#contacto" class="bts-overlay-cta">Agenda tu sesión <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </section>
