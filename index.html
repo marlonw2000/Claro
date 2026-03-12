@@ -2003,110 +2003,116 @@ footer {
 
 <!-- ═══════════════ PORTFOLIO ═══════════════ -->
 <section id="portfolio" class="portfolio">
-  <div class="wrap">
-    <div class="section-header reveal">
-      <span class="label">Nuestro trabajo</span>
-      <h2>Portafolio</h2>
-      <span class="gold-line"></span>
+  <div class="container">
+    <div class="section-label">Nuestro trabajo</div>
+    <h2 class="section-title">Portafolio</h2>
+    <p class="section-sub">Cada imagen es una historia. Explorá nuestras categorías o dejate llevar por el slideshow.</p>
+  </div>
+
+  <!-- Hero slideshow: 4 featured photos in 16:9 -->
+  <div class="port-slideshow" id="portSlideshow">
+    <div class="port-slide active" style="background-image:url('https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg')">
+      <div class="port-slide-overlay"><span class="port-slide-label">Bodas</span></div>
     </div>
-    <div class="gallery-tabs reveal">
-      <button class="tab active" data-filter="all">Todos</button>
-      <button class="tab" data-filter="maternidad">Maternidad</button>
-      <button class="tab" data-filter="bebes">Bebés</button>
-      <button class="tab" data-filter="familias">Familias</button>
-      <button class="tab" data-filter="retratos">Retratos</button>
-      <button class="tab" data-filter="bodas">Bodas</button>
-      <button class="tab" data-filter="colegios">Colegios</button>
+    <div class="port-slide" style="background-image:url('https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg')">
+      <div class="port-slide-overlay"><span class="port-slide-label">Maternidad</span></div>
+    </div>
+    <div class="port-slide" style="background-image:url('https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg')">
+      <div class="port-slide-overlay"><span class="port-slide-label">Retratos</span></div>
+    </div>
+    <div class="port-slide" style="background-image:url('https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg')">
+      <div class="port-slide-overlay"><span class="port-slide-label">Familias</span></div>
+    </div>
+    <div class="port-slide-dots">
+      <span class="port-dot active" onclick="goSlide(0)"></span>
+      <span class="port-dot" onclick="goSlide(1)"></span>
+      <span class="port-dot" onclick="goSlide(2)"></span>
+      <span class="port-dot" onclick="goSlide(3)"></span>
+    </div>
+    <button class="port-slide-prev" onclick="prevSlide()">&#8249;</button>
+    <button class="port-slide-next" onclick="nextSlide()">&#8250;</button>
+  </div>
+
+  <!-- Filter tabs + full gallery -->
+  <div class="container">
+    <div class="filter-tabs" role="tablist">
+      <button class="filter-tab active" data-filter="all" role="tab">Todos</button>
+      <button class="filter-tab" data-filter="bodas" role="tab">Bodas</button>
+      <button class="filter-tab" data-filter="maternidad" role="tab">Maternidad</button>
+      <button class="filter-tab" data-filter="retratos" role="tab">Retratos</button>
+      <button class="filter-tab" data-filter="familias" role="tab">Familias</button>
+      <button class="filter-tab" data-filter="bebes" role="tab">Bebés</button>
+      <button class="filter-tab" data-filter="colegios" role="tab">Colegios</button>
     </div>
     <div class="masonry" id="galleryMasonry">
       <!-- MATERNIDAD -->
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/NgpCNJHK/2026-03-11-10-17-00.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="maternidad"><img src="https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="maternidad"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="maternidad"><img src="https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/S75ZVzQj/2026-03-11-10-16-56.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/LX5fZQSH/2026-03-11-10-16-17.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
+      <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/Y7Ckv7yJ/Screenshot-20260311-101721-com-flickr-android-Lightbox2-Activity.jpg" alt="Maternidad" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
       <div class="masonry-item reveal" data-cat="maternidad"><img src="https://i.ibb.co/vvcfRvH8/20250716-FB-IMG-1717627029680.jpg" alt="Maternidad natural" loading="lazy"><div class="masonry-overlay"><span>Maternidad</span></div></div>
-
       <!-- BODAS -->
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/TxBLtzz9/2026-03-11-10-20-30.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/Tq47Sq1z/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/1GXvHKFR/2026-03-11-10-21-19.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/MyLX2sYC/2026-03-11-10-21-28.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Tq47Sq1z/2026-03-11-10-20-40.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/1GXvHKFR/2026-03-11-10-21-19.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/MyLX2sYC/2026-03-11-10-21-28.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/QvQH2tRk/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/HfccLgJT/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/XZbYZVGq/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/KjYqsK9m/2026-03-11-10-22-37.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/HfccLgJT/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/XZbYZVGq/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/KjYqsK9m/2026-03-11-10-22-37.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Q7TnvknV/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/B2hkWtgX/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/7JPkFHgP/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/6RdzpR4G/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/B2hkWtgX/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/7JPkFHgP/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/6RdzpR4G/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/WNfWRs3L/2026-03-11-10-23-17.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/v7KzprX/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/9HYNvdZH/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/mFdSK4ZT/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/v7KzprX/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/9HYNvdZH/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/mFdSK4ZT/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/4RRnRPpC/2026-03-11-10-24-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/MyXd1pC7/2026-03-11-10-24-25.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/NgT2j1fc/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/kVFppKVC/2026-03-11-10-24-59.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/MyXd1pC7/2026-03-11-10-24-25.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/NgT2j1fc/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/kVFppKVC/2026-03-11-10-24-59.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/TDPYj4kW/2026-03-11-10-25-02.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/9mnf15B9/2026-03-11-10-25-10.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/xtnbd3hP/2026-03-11-10-25-32.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/h18BDvh5/2026-03-11-10-25-50.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/4ZVS6rSC/2026-03-11-10-21-33.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/CpDCh9CG/2026-03-11-10-21-39.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/xqBJLxL7/2026-03-11-10-21-45.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/7txFVVj2/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/mrTNmCZJ/2026-03-11-10-22-44.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/6Rfr8R13/2026-03-11-10-22-48.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/QvWn7v0L/2026-03-11-10-22-58.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/VXZTmWf/2026-03-11-10-23-13.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/Q70jfs3V/2026-03-11-10-23-17.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/mVVb2RQj/2026-03-11-10-23-20.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bodas"><img src="https://i.ibb.co/S4vmByVJ/2026-03-11-10-23-23.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bodas"><img src="https://i.ibb.co/wNwP0bLG/2026-03-11-10-23-46.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/kVjr9vVn/2026-03-11-10-24-47.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bodas"><img src="https://i.ibb.co/dwnnLw33/2026-03-11-10-25-02.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/9mnf15B9/2026-03-11-10-25-10.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/xtnbd3hP/2026-03-11-10-25-32.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/h18BDvh5/2026-03-11-10-25-50.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
+      <div class="masonry-item reveal" data-cat="bodas"><img src="https://i.ibb.co/7txFVVj2/Screenshot-20260311-102230-com-flickr-android-Lightbox2-Activity.jpg" alt="Boda" loading="lazy"><div class="masonry-overlay"><span>Bodas</span></div></div>
       <!-- RETRATOS -->
       <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/N6pZcCsM/2026-03-11-10-09-20.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/gMPtsxSh/2026-03-11-10-09-04.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/FqqGtVqb/2026-03-11-10-09-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/zTkJhVPx/2026-03-11-10-11-52.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/gMPtsxSh/2026-03-11-10-09-04.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/FqqGtVqb/2026-03-11-10-09-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/zTkJhVPx/2026-03-11-10-11-52.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/GfJ7T8gN/2026-03-11-10-26-17.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/gFXbyzRZ/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/gFXbyzRZ/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/R4khM1F1/Screenshot-20260311-122744-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/jZ4zCKGQ/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/9HRx1jdn/2026-03-11-10-13-26.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/chskjR60/2026-03-11-10-26-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/JF3XDjjq/Screenshot-2024-03-20-17-12-15-338-com-flickr-android.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/nsHPh3Y0/2024-03-09-06-32-14.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/jZ4zCKGQ/Screenshot-20260311-122803-com-flickr-android-Lightbox2-Activity.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/9HRx1jdn/2026-03-11-10-13-26.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/JF3XDjjq/Screenshot-2024-03-20-17-12-15-338-com-flickr-android.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/nsHPh3Y0/2024-03-09-06-32-14.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/mrjP8CfH/2018-02-24-01-48-36.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/nNqdSrRV/FB-IMG-1564835287419.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/Xk5H1kXf/2024-06-05-04-09-18.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/3YmftcJ5/2024-06-05-04-09-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/0RgB3sZ0/2024-06-05-04-11-10.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="retratos"><img src="https://i.ibb.co/7xJj79mG/2024-06-05-04-11-27.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="retratos"><img src="https://i.ibb.co/vCRBX6Hy/2024-06-05-04-12-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="retratos"><img src="https://i.ibb.co/DPg22Ksz/2024-06-05-04-09-57.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/nNqdSrRV/FB-IMG-1564835287419.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/Xk5H1kXf/2024-06-05-04-09-18.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/3YmftcJ5/2024-06-05-04-09-24.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/vCRBX6Hy/2024-06-05-04-12-35.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
+      <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/DPg22Ksz/2024-06-05-04-09-57.jpg" alt="Retrato" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <div class="masonry-item reveal" data-cat="retratos"><img src="https://i.ibb.co/BxLh1PG/1773264486705-edit-233921986692898.png" alt="Retrato artístico" loading="lazy"><div class="masonry-overlay"><span>Retratos</span></div></div>
       <!-- COLEGIOS -->
       <div class="masonry-item reveal" data-cat="colegios"><img src="https://i.ibb.co/kVDNkM6J/2026-03-11-10-30-25-edit-217354778074218.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="colegios"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
-
+      <div class="masonry-item reveal" data-cat="colegios"><img src="https://i.ibb.co/0Rg01xf3/2026-03-11-10-30-28-edit-217320133204804.jpg" alt="Graduación" loading="lazy"><div class="masonry-overlay"><span>Colegios</span></div></div>
       <!-- BEBÉS -->
       <div class="masonry-item reveal" data-cat="bebes"><img src="https://i.ibb.co/3mdmYvQn/Screenshot-20260311-122524-com-flickr-android-Lightbox2-Activity.jpg" alt="Bebé" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="bebes"><img src="https://i.ibb.co/mFNYcDb1/2026-03-11-10-43-30.jpg" alt="Bebé" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="bebes"><img src="https://i.ibb.co/JWSJXHrC/Screenshot-20260311-104618-com-hihonor-photos-Slot-Album-Activity-edit-217250088612071.jpg" alt="Recién nacido" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="bebes"><img src="https://i.ibb.co/PGqt1YFD/2026-03-11-10-43-42.jpg" alt="Bebé recién nacido" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
+      <div class="masonry-item reveal" data-cat="bebes"><img src="https://i.ibb.co/mFNYcDb1/2026-03-11-10-43-30.jpg" alt="Bebé" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
+      <div class="masonry-item reveal" data-cat="bebes"><img src="https://i.ibb.co/JWSJXHrC/Screenshot-20260311-104618-com-hihonor-photos-Slot-Album-Activity-edit-217250088612071.jpg" alt="Recién nacido" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
+      <div class="masonry-item reveal" data-cat="bebes"><img src="https://i.ibb.co/PGqt1YFD/2026-03-11-10-43-42.jpg" alt="Bebé recién nacido" loading="lazy"><div class="masonry-overlay"><span>Bebés</span></div></div>
       <!-- FAMILIAS -->
       <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/MDbt88JQ/2026-03-11-10-17-07.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="familias"><img src="https://i.ibb.co/ksc96fH4/DSC-4853-Enhanced-NR-2.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="familias"><img src="https://i.ibb.co/v2MjF4R/DSC-4771.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="familias"><img src="https://i.ibb.co/Jj3SQRs8/Beauty-Plus-20260306174128421-save.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/ksc96fH4/DSC-4853-Enhanced-NR-2.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/v2MjF4R/DSC-4771.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/Jj3SQRs8/Beauty-Plus-20260306174128421-save.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
       <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/wF0kFt86/Beauty-Plus-20260306174615863-save.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-1" data-cat="familias"><img src="https://i.ibb.co/5W7g5d1Z/Beauty-Plus-20260306213600182-save-edit-184804132197938.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-2" data-cat="familias"><img src="https://i.ibb.co/xKGY5Ktn/DSC-5284-1.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
-      <div class="masonry-item reveal reveal-delay-3" data-cat="familias"><img src="https://i.ibb.co/QjD1w1Hk/20250716-FB-IMG-1752452685920.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/5W7g5d1Z/Beauty-Plus-20260306213600182-save-edit-184804132197938.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/xKGY5Ktn/DSC-5284-1.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
+      <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/QjD1w1Hk/20250716-FB-IMG-1752452685920.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
       <div class="masonry-item reveal" data-cat="familias"><img src="https://i.ibb.co/wZQW4fHh/20250716-DSC-4964-Enhanced-NR.jpg" alt="Familia" loading="lazy"><div class="masonry-overlay"><span>Familias</span></div></div>
     </div>
   </div>
@@ -4552,6 +4558,44 @@ INSTRUCCIONES:
   function scrollChat(){
     const m = document.getElementById('chatMessages');
     setTimeout(()=> m.scrollTop = m.scrollHeight, 50);
+  }
+})();
+
+// ── Portfolio Slideshow ──
+(function(){
+  var slides = document.querySelectorAll('.port-slide');
+  var dots = document.querySelectorAll('.port-dot');
+  var current = 0;
+  var timer;
+
+  function goSlide(n){
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  window.goSlide = goSlide;
+  window.nextSlide = function(){ goSlide(current + 1); resetTimer(); };
+  window.prevSlide = function(){ goSlide(current - 1); resetTimer(); };
+
+  function resetTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){ goSlide(current + 1); }, 4500);
+  }
+
+  if(slides.length) resetTimer();
+
+  // Touch swipe support
+  var startX = 0;
+  var ss = document.getElementById('portSlideshow');
+  if(ss){
+    ss.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+    ss.addEventListener('touchend', function(e){
+      var diff = startX - e.changedTouches[0].clientX;
+      if(Math.abs(diff) > 40){ diff > 0 ? window.nextSlide() : window.prevSlide(); }
+    }, {passive:true});
   }
 })();
 })();
